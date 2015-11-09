@@ -27,14 +27,6 @@ This script will install Torch and related, useful packages into $PREFIX.
     esac
 done
 
-
-# Scrub an anaconda install, if exists, from the PATH.
-# It has a malformed MKL library (as of 1/17/2015)
-OLDPATH=$PATH
-if [[ $(echo $PATH | grep anaconda) ]]; then
-    export PATH=$(echo $PATH | tr ':' '\n' | grep -v "anaconda/bin" | grep -v "anaconda/lib" | grep -v "anaconda/include" | uniq | tr '\n' ':')
-fi
-
 echo "Prefix set to $PREFIX"
 
 if [[ `uname` == 'Linux' ]]; then
@@ -42,14 +34,6 @@ if [[ `uname` == 'Linux' ]]; then
 fi
 
 git submodule update --init --recursive
-
-# If we're on OS X, use clang
-if [[ `uname` == "Darwin" ]]; then
-    # make sure that we build with Clang. CUDA's compiler nvcc
-    # does not play nice with any recent GCC version.
-    export CC=clang
-    export CXX=clang++
-fi
 
 echo "Installing Lua version: ${TORCH_LUA_VERSION}"
 mkdir -p install
@@ -59,16 +43,12 @@ cmake .. -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DWITH_${
 (make 2>&1 >>$PREFIX/install.log  || exit 1) && (make install 2>&1 >>$PREFIX/install.log || exit 1)
 cd ..
 
-# Check for a CUDA install (using nvcc instead of nvidia-smi for cross-platform compatibility)
-path_to_nvcc=$(which nvcc)
-path_to_nvidiasmi=$(which nvidia-smi)
-
 # check if we are on mac and fix RPATH for local install
-path_to_install_name_tool=$(which install_name_tool 2>/dev/null)
-if [ -x "$path_to_install_name_tool" ]
-then
-   install_name_tool -id ${PREFIX}/lib/libluajit.dylib ${PREFIX}/lib/libluajit.dylib
-fi
+#path_to_install_name_tool=$(which install_name_tool 2>/dev/null)
+#if [ -x "$path_to_install_name_tool" ]
+#then
+   #install_name_tool -id ${PREFIX}/lib/libluajit.dylib ${PREFIX}/lib/libluajit.dylib
+#fi
 
 setup_lua_env_cmd=$($PREFIX/bin/luarocks path -bin)
 eval "$setup_lua_env_cmd"
@@ -93,13 +73,6 @@ cd ${THIS_DIR}/extra/nngraph && $PREFIX/bin/luarocks make                       
 cd ${THIS_DIR}/pkg/image     && $PREFIX/bin/luarocks make image-1.1.alpha-0.rockspec   || exit 1
 cd ${THIS_DIR}/pkg/optim     && $PREFIX/bin/luarocks make optim-1.0.5-0.rockspec       || exit 1
 
-if [ -x "$path_to_nvcc" ] || [ -x "$path_to_nvidiasmi" ]
-then
-    echo "Found CUDA on your machine. Installing CUDA packages"
-    cd ${THIS_DIR}/extra/cutorch && $PREFIX/bin/luarocks make rocks/cutorch-scm-1.rockspec || exit 1
-    cd ${THIS_DIR}/extra/cunn    && $PREFIX/bin/luarocks make rocks/cunn-scm-1.rockspec    || exit 1
-fi
-
 # if installing vanilla lua, install luaffifb
 if [ ${TORCH_LUA_VERSION} == "LUA51" ] || [ ${TORCH_LUA_VERSION} == "LUA52" ] ; then
     cd ${THIS_DIR}/extra/luaffifb && $PREFIX/bin/luarocks make
@@ -119,20 +92,8 @@ cd ${THIS_DIR}/extra/audio          && $PREFIX/bin/luarocks make audio-0.1-0.roc
 cd ${THIS_DIR}/extra/fftw3          && $PREFIX/bin/luarocks make rocks/fftw3-scm-1.rockspec
 cd ${THIS_DIR}/extra/signal         && $PREFIX/bin/luarocks make rocks/signal-scm-1.rockspec
 
-# Optional CUDA packages
-if [ -x "$path_to_nvcc" ] || [ -x "$path_to_nvidiasmi" ]
-then
-    echo "Found CUDA on your machine. Installing optional CUDA packages"
-    cd ${THIS_DIR}/extra/cudnn   && $PREFIX/bin/luarocks make cudnn-scm-1.rockspec
-    cd ${THIS_DIR}/extra/cunnx   && $PREFIX/bin/luarocks make rocks/cunnx-scm-1.rockspec
-fi
-
-export PATH=$OLDPATH # Restore anaconda distribution if we took it out.
-if [[ `uname` == "Darwin" ]]; then
-    cd ${THIS_DIR}/extra/iTorch         && $PREFIX/bin/luarocks make OPENSSL_DIR=/usr/local/opt/openssl/
-else
-    cd ${THIS_DIR}/extra/iTorch         && $PREFIX/bin/luarocks make
-fi
+#export PATH=$OLDPATH # Restore anaconda distribution if we took it out.
+cd ${THIS_DIR}/extra/iTorch         && $PREFIX/bin/luarocks make
 
 if [[ $SKIP_RC == 1 ]]; then
   exit 0
