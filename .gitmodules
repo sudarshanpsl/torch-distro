@@ -16,9 +16,6 @@
 [submodule "pkg/cwrap"]
 	path = pkg/cwrap
 	url = https://github.com/torch/cwrap.git
-[submodule "extra/cunn"]
-	path = extra/cunn
-	url = https://github.com/torch/cunn.git
 [submodule "extra/cutorch"]
 	path = extra/cutorch
 	url = https://github.com/torch/cutorch.git
@@ -55,9 +52,6 @@
 [submodule "extra/argcheck"]
 	path = extra/argcheck
 	url = https://github.com/torch/argcheck.git
-[submodule "extra/cudnn"]
-	path = extra/cudnn
-	url = https://github.com/soumith/cudnn.torch.git
 [submodule "exe/trepl"]
 	path = exe/trepl
 	url = https://github.com/torch/trepl.git
@@ -79,12 +73,6 @@
 [submodule "exe/env"]
 	path = exe/env
 	url = https://github.com/torch/env.git
-[submodule "extra/cuda-convnet2.torch"]
-	path = extra/cuda-convnet2.torch
-	url = git@github.com:soumith/cuda-convnet2.torch.git
-[submodule "extra/cunnx"]
-	path = extra/cunnx
-	url = https://github.com/nicholas-leonard/cunnx.git
 [submodule "extra/iTorch"]
 	path = extra/iTorch
 	url = https://github.com/facebook/iTorch.git
