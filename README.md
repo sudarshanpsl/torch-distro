@@ -1,16 +1,14 @@
-[![Build Status](https://travis-ci.org/torch/distro.svg?branch=master)](https://travis-ci.org/torch/distro)
-
-Self-contained Torch installation
+Self-contained Torch installation for PPC64
 ============
 
-Install dependencies. Uses `apt-get` on Ubuntu, which might require `sudo`. Uses `brew` on OSX.
+Install dependencies. Uses `apt-get` on Ubuntu, which might require `sudo`.
 ```sh
-curl -s https://raw.githubusercontent.com/torch/ezinstall/master/install-deps | bash
+curl -s https://raw.githubusercontent.com/PPC64/torch-distro/ppc64/install-deps | bash
 ```
 
 Install this repo, which installs the torch distribution, with a lot of nice goodies.
 ```sh
-git clone https://github.com/torch/distro.git ~/torch --recursive
+git clone https://github.com/PPC64/torch-distro.git ~/torch --recursive
 cd ~/torch; ./install.sh
 ```
 
@@ -31,4 +29,4 @@ Note: If you use a non-standard shell, you'll want to run this command
 ./install/bin/torch-activate
 ```
 
-Tested on Ubuntu 14.04, CentOS/RHEL 6.3 and OSX
+Tested on Ubuntu 15.10
