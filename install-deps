@@ -137,7 +137,11 @@ elif [[ "$(uname)" == 'Linux' ]]; then
     if [[ $distribution == 'ubuntu' ]]; then
         sudo apt-get update
         # python-software-properties is required for apt-add-repository
-        sudo apt-get install -y python-software-properties
+        if [[ "$(uname -m)" == "ppc64le" ]]; then
+            sudo apt-get install -y software-properties-common
+        else
+            sudo apt-get install -y python-software-properties
+        fi;
         echo "==> Found Ubuntu version ${ubuntu_major_version}.xx"
         if [[ $ubuntu_major_version -lt '12' ]]; then
             echo '==> Ubuntu version not supported.'
@@ -171,7 +175,9 @@ elif [[ "$(uname)" == 'Linux' ]]; then
             # Install from source after installing git and build-essential
             install_openblas || true
         else
-            sudo apt-get install -y libopenblas-dev liblapack-dev
+            if [[ "$(uname -m)" != "ppc64le" ]]; then
+                sudo apt-get install -y libopenblas-dev liblapack-dev
+            fi
         fi
 
     elif [[ $distribution == 'elementary' ]]; then
