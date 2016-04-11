@@ -84,7 +84,7 @@
 	url = https://github.com/torch/nngraph
 [submodule "extra/luaffifb"]
 	path = extra/luaffifb
-	url = https://github.com/facebook/luaffifb
+	url = https://github.com/PPC64/luaffifb
 [submodule "extra/luafilesystem"]
 	path = extra/luafilesystem
 	url = https://github.com/keplerproject/luafilesystem.git
