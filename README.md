@@ -31,7 +31,7 @@ Note: If you use a non-standard shell, you'll want to run this command
 
 Tested on Ubuntu 14.04
 
-**NOTE**: If you indend on downloading release directly from GitHub interface, note that it doesn't include submodules.
+**NOTE**: If you intend on downloading release directly from GitHub interface, note that it doesn't include submodules.
 
 Please proceed as following to get all the file appropriately:
 
