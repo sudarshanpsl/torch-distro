@@ -136,11 +136,7 @@ elif [[ "$(uname)" == 'Linux' ]]; then
     if [[ $distribution == 'ubuntu' ]]; then
         sudo apt-get update
         # python-software-properties is required for apt-add-repository
-        if [[ "$(uname -m)" == "ppc64le" ]]; then
-            sudo apt-get install -y software-properties-common
-        else
-            sudo apt-get install -y python-software-properties
-        fi;
+        sudo apt-get install -y python-software-properties
         echo "==> Found Ubuntu version ${ubuntu_major_version}.xx"
         if [[ $ubuntu_major_version -lt '12' ]]; then
             echo '==> Ubuntu version not supported.'
@@ -172,7 +168,7 @@ elif [[ "$(uname)" == 'Linux' ]]; then
         if [[ $ubuntu_major_version -lt '14' ]]; then
             # Install from source after installing git and build-essential
             install_openblas || true
-        elif [[ "$(uname -m)" != "ppc64le" ]]; then
+        else
             sudo apt-get install -y libopenblas-dev liblapack-dev
         fi
 
@@ -189,11 +185,7 @@ elif [[ "$(uname)" == 'Linux' ]]; then
                       gnuplot-x11 ipython )
         sudo apt-get update
         # python-software-properties is required for apt-add-repository
-        if [[ "$(uname -m)" == "ppc64le" ]]; then
-            sudo apt-get install -y software-properties-common
-        else
-            sudo apt-get install -y python-software-properties
-        fi;
+        sudo apt-get install -y python-software-properties
         if [[ $elementary_version == '0.3' ]]; then
             echo '==> Found Ubuntu version 14.xx based elementary installation, installing dependencies'
             sudo apt-get install -y software-properties-common \
@@ -205,12 +197,6 @@ elif [[ "$(uname)" == 'Linux' ]]; then
             sudo -E add-apt-repository -y ppa:chris-lea/zeromq
         fi
         sudo apt-get update
-        if [[ "$(uname -m)" == 'ppc64le' ]]; then
-          sudo apt-get install -y \
-            graphicsmagick libfftw3-3 libfftw3-dev libgraphicsmagick1-dev \
-            libjpeg8-dev libmagickwand-dev libncurses5-dev libpng12-dev \
-            libsox-dev libsox-fmt-all libx11-dev software-properties-common sox
-        fi
         sudo apt-get install -y "${target_pkgs[@]}"
 
         install_openblas || true
