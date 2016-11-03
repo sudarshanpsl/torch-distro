@@ -49,7 +49,7 @@ You can test that all libraries are installed properly by running:
 ./test.sh
 ```
 
-Tested on Ubuntu 14.04
+Tested on Ubuntu 16.04
 
 **NOTE**: If you intend on downloading release directly from GitHub interface, note that it doesn't include submodules.
 
@@ -61,4 +61,4 @@ cd torch-distro
 git checkout <RELEASE_NAME>
 ```
 
-Or else `./install.sh` will not work
+Otherwise `./install.sh` will not work
